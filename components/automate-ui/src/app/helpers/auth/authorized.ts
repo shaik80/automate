@@ -39,7 +39,6 @@ export class AuthorizedChecker {
   constructor(private store: Store<NgrxStateAtom>) {
     this.isAuthorized$ =
       this.store.select(allPerms).pipe(
-        takeUntil(this.isDestroyed),
         debounceTime(AuthorizedChecker.DebounceTime),
         filter(perms => !isEmpty(perms)),
         filter(() => !isEmpty(this.allOf) || !isEmpty(this.anyOf)),
@@ -72,11 +71,6 @@ export class AuthorizedChecker {
       }
     });
     return inputs;
-  }
-
-  destroy() {
-    this.isDestroyed.next(true);
-    this.isDestroyed.complete();
   }
 
   // For a parameterized endpoint, we need to check the inflated endpoint--
