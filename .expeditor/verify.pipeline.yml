@@ -564,6 +564,14 @@ steps:
             - HAB_STUDIO_SUP=false
             - HAB_NONINTERACTIVE=true
 
+  - label: ":semgrep: Semgrep"
+    expeditor:
+      executor:
+        docker:
+          image: returntocorp/semgrep:latest
+          entrypoint: semgrep
+          command: ["--error", "--config", "/workdir/semgrep" ]
+
   - wait
 
   - label: "automate-ui"
